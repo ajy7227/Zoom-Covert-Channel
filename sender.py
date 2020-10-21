@@ -10,8 +10,8 @@ if __name__ == "__main__":
     for c in msg:
         binary += '{0:08b}'.format(ord(c))
 
-    # Designates the start of the message with sending 5 bits of 1
-    for i in range(0,4):
+    # Designates the start of the message with sending 7 bits of 1
+    for i in range(0,6):
         pyautogui.hotkey("altleft", "y")
         i += 1
 
@@ -24,3 +24,7 @@ if __name__ == "__main__":
             pyautogui.hotkey("altleft", "a")
         time.sleep(.5)
     
+# Designates the end of the message with sending  bits of 1
+    for i in range(0,6):
+        pyautogui.hotkey("altleft", "y")
+        i += 1
