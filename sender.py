@@ -8,7 +8,7 @@ if __name__ == "__main__":
     msg = input("Enter your message: ")
     binary = ""
     for c in msg:
-        binary += '{0:08b}'.format(ord(char))
+        binary += '{0:08b}'.format(ord(c))
 
     # Designates the start of the message with sending 5 bits of 1
     for i in range(0,4):
