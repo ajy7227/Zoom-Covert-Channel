@@ -1,5 +1,4 @@
 import pyautogui
-import time
 
 
 if __name__ == "__main__":
@@ -10,10 +9,10 @@ if __name__ == "__main__":
     for c in msg:
         binary += '{0:08b}'.format(ord(c))
 
-    # Designates the start of the message with sending 7 bits of 1
-    for i in range(0,6):
-        pyautogui.hotkey("altleft", "y")
 
+    # Designates the start of the message with sending 7 bits of 1
+    for i in range(0,7):
+        pyautogui.hotkey("altleft", "y")
 
     # Uses Zoom global shortcuts to toggle raise/lower hand for 1
     # and mute/unmute for 0 every half second
@@ -22,8 +21,7 @@ if __name__ == "__main__":
             pyautogui.hotkey("altleft", "y")
         if b == "0":
             pyautogui.hotkey("altleft", "a")
-        time.sleep(.5)
 
 # Designates the end of the message with sending  bits of 1
-    for i in range(0,6):
+    for i in range(0,7):
         pyautogui.hotkey("altleft", "y")
