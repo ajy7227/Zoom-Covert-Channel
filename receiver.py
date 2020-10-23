@@ -1,8 +1,8 @@
 import pyshark
 import sys
 
-# Determine Zoom IP and length of ones and zeros
-def initialize(pcap):
+# Determine Zoom IP and length of ones
+def init1(pcap):
 	packet_occurance = {}
 	# For each entry in pcap
 	for packet in pcap:
@@ -26,6 +26,33 @@ def initialize(pcap):
 
 			if packet_occurance[elmt] == 7:
 				return elmt
+
+
+# Get zero length
+def init2(pcap, zoom_IP):
+	packet_occurance = {}
+	# For each entry in pcap
+	for packet in pcap:
+		# Determine if IP packet
+		try:
+			source_IP = packet.ip.src
+			packet_length = int(packet.length)
+
+			# If ssl and length over 900 (then its a potential handraise)
+			if packet.ssl and 100 < packet_length < 200 and source_IP == zoom_IP:
+				if packet_length not in packet_occurance:
+					packet_occurance[packet_length] = 1
+				else:
+					packet_occurance[packet_length] += 1
+		# If not packet, pass
+		except AttributeError as e:
+			pass
+
+		for elmt in packet_occurance:
+			if packet_occurance[elmt] == 7:
+				return elmt
+
+
 
 def decode(pcap, zoom_IP, one_length, zero_length):
 	init = False
@@ -62,7 +89,7 @@ def decode(pcap, zoom_IP, one_length, zero_length):
 		except AttributeError as e:
 			pass
 
-	binary = binary[7:]
+	binary = binary[14:]
 
 
 	for i in range(0,len(binary),8):
@@ -80,9 +107,11 @@ def main():
 
 	pcap = pyshark.FileCapture(sys.argv[1], display_filter='!tcp.analysis.retransmission && ssl')
 
-	zoom_IP, one_length = initialize(pcap)
+	zoom_IP, one_length = init1(pcap)
 
-	message = decode(pcap, "193.122.208.134", 1242, 127)
+	zero_length = init2(pcap, zoom_IP)
+
+	message = decode(pcap, zoom_IP, one_length, zero_length)
 
 
 	print(message)
