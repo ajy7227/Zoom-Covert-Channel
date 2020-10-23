@@ -13,18 +13,17 @@ if __name__ == "__main__":
     # Designates the start of the message with sending 7 bits of 1
     for i in range(0,6):
         pyautogui.hotkey("altleft", "y")
-        i += 1
+
 
     # Uses Zoom global shortcuts to toggle raise/lower hand for 1
-    # and mute/unmute for 0 every half second 
+    # and mute/unmute for 0 every half second
     for b in binary:
         if b == "1":
             pyautogui.hotkey("altleft", "y")
         if b == "0":
             pyautogui.hotkey("altleft", "a")
         time.sleep(.5)
-    
+
 # Designates the end of the message with sending  bits of 1
     for i in range(0,6):
         pyautogui.hotkey("altleft", "y")
-        i += 1
